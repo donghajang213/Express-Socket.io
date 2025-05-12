@@ -1,0 +1,27 @@
+# node.js 관련
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.env
+
+# 운영 체제 임시 파일
+.DS_Store
+Thumbs.db
+
+# 로그 파일
+*.log
+
+# 에디터 설정 파일 (선택)
+.vscode/
+.idea/
+
+# 채팅 로그 저장 파일
+chat-log.json
+
+# 배포 환경 설정 파일 (있다면)
+*.env.local
+*.env.production
+
+# OS에 따라
+*.swp

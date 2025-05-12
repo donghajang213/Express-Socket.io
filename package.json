@@ -1,0 +1,17 @@
+{
+  "name": "express-socket.io",
+  "version": "1.0.0",
+  "description": "Express + Socket.io 기반 실시간 채팅 웹앱",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1"
+  }
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>채팅방</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>실시간 채팅방</h1>
+
+  <div>
+    <label>쪽지 보낼 대상:</label>
+    <select id="recipient">
+      <option value="all">전체</option>
+    </select>
+  </div>
+
+  <ul id="messages"></ul>
+
+  <form id="form">
+    <input id="input" autocomplete="off" placeholder="메시지를 입력하세요" />
+    <button>전송</button>
+  </form>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const form = document.getElementById('form');
+    const input = document.getElementById('input');
+    const messages = document.getElementById('messages');
+    const recipient = document.getElementById('recipient');
+
+    let nickname = prompt("닉네임을 입력하세요") || "익명";
+    let room = prompt("입장할 방 이름을 입력하세요") || "default";
+    socket.emit('join room', { nickname, room });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (input.value) {
+        const selected = recipient.value;
+        if (selected === "all") {
+          socket.emit('chat message', input.value);
+        } else {
+          socket.emit('private message', { to: selected, message: input.value });
+        }
+        input.value = '';
+      }
+    });
+
+    socket.on('chat message', function(msg) {
+      const item = document.createElement('li');
+      item.textContent = msg;
+      messages.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+
+    socket.on('user list', function(list) {
+      recipient.innerHTML = '<option value="all">전체</option>';
+      list.forEach(user => {
+        if (user.id !== socket.id) {
+          const option = document.createElement('option');
+          option.value = user.id;
+          option.textContent = user.nickname;
+          recipient.appendChild(option);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
